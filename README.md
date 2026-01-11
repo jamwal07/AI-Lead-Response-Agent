@@ -1,3 +1,8 @@
+> ⚠️ **Portfolio Demonstration**
+>
+> This repository is a stripped-down version of a proprietary SaaS system.
+> It is intended strictly for portfolio review and educational purposes.
+> **Commercial use, reproduction, or deployment for business profit is prohibited without a license.**
 🚀 AI Lead Response Agent
 An enterprise-grade autonomous system that intercepts missed calls and converts them into engaged leads via AI-powered SMS.
 
