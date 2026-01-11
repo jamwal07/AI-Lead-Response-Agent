@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlumberAI Admin</title>
+    <!-- Simple CSS for nice look -->
+    <style>
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #fafafa;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .success {
+            background: #e6f4ea;
+            color: #1e7e34;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .failed {
+            background: #fbe9eb;
+            color: #dc3545;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        .big-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>🛠️ PlumberAI Dashboard</h1>
+            <div>
+                <span class="badge success">System Online</span>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="big-number">{{ queue_len }}</div>
+                <div>Queue Size</div>
+            </div>
+            <div class="stat-box">
+                <div class="big-number">{{ stats.missed_calls }}</div>
+                <div>Missed Calls (Today)</div>
+            </div>
+            <div class="stat-box">
+                <div class="big-number">{{ stats.reminders }}</div>
+                <div>Reminders Sent</div>
+            </div>
+            <div class="stat-box">
+                <div class="big-number">{{ stats.errors }}</div>
+                <div style="color: red">Errors</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Live SMS Queue</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>To</th>
+                        <th>Status</th>
+                        <th>Attempts</th>
+                        <th>Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in queue %}
+                    <tr>
+                        <td>{{ msg.created_at[:16].replace('T', ' ') }}</td>
+                        <td>{{ msg.to_number }}</td>
+                        <td>
+                            <span
+                                class="badge {{ 'success' if msg.status == 'sent' else ('failed' if 'failed' in msg.status else 'pending') }}">
+                                {{ msg.status }}
+                            </span>
+                        </td>
+                        <td>{{ msg.attempts }}</td>
+                        <td style="font-size: 0.9em; color: #555;">{{ msg.body }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Active Clients</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Mock Data for now -->
+                    <tr>
+                        <td>TONY_PLUMBING</td>
+                        <td>Tony's Plumbing LLC</td>
+                        <td>+15550001234</td>
+                        <td><span class="badge success">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>MIKE_ELECTRIC</td>
+                        <td>Mike's Electric</td>
+                        <td>+15550005678</td>
+                        <td><span class="badge success">Active</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
