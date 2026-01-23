@@ -44,3 +44,7 @@ if _safe_mode_val in ("OFF", "FALSE", "0"):
     SAFE_MODE = False
 else:
     SAFE_MODE = True  # Default to ON (safe) - blocks all SMS sends
+
+# --- GLOBAL KILL SWITCH ---
+# If KILL_SWITCH is ON, the entire SMS engine worker will stop processing loops.
+KILL_SWITCH = os.getenv("KILL_SWITCH", "OFF").upper() == "ON"
